@@ -1,0 +1,51 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HelperGui"
+    xmlns:converters="clr-namespace:HelperGui.Converters">
+  <converters:WarningBoolToBrush x:Key="WarningBoolToBrushConverter" />
+  
+  <Style TargetType="{x:Type local:DefaultedTextBox}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="TextBox">
+          <Border Background="White" BorderThickness="1"
+                  BorderBrush="{Binding HasValidValue, RelativeSource={RelativeSource AncestorType={x:Type local:DefaultedTextBox}}, Converter={StaticResource WarningBoolToBrushConverter}}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="16" />
+              </Grid.ColumnDefinitions>
+
+              <TextBox x:Name="TextContentBox" Grid.Column="0" BorderThickness="0"
+                       Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                       TextWrapping="{Binding TextWrapping, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                       Focusable="True"/>
+              <TextBlock
+                x:Name="CustomCommentNote" Grid.Column="0"
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                Text="{Binding DefaultText, RelativeSource={RelativeSource AncestorType={x:Type local:DefaultedTextBox}}}"
+                Foreground="Gray" FontStyle="Italic"
+                IsHitTestVisible="False"
+                Focusable="False"
+                Visibility="Hidden" />
+              <local:TwoImageButton x:Name="ClearBtn"
+                Grid.Column="1"
+                ToolTip="Clear Text"
+                RegularImage="../Icons/TextClear.ico"
+                HoverImage="../Icons/TextClearFocused.ico"
+                ClickImage="../Icons/TextClearClicked.ico"
+                Focusable="False"
+                Command="{Binding ClearTextCommand, RelativeSource={RelativeSource AncestorType={x:Type local:DefaultedTextBox}}}" />
+            </Grid>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="Text" Value="">
+              <Setter Property="Visibility" TargetName="CustomCommentNote" Value="Visible" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

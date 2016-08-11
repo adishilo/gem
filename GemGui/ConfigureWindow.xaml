@@ -1,0 +1,182 @@
+﻿<Window x:Class="GemGui.ConfigureWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:helperGui="clr-namespace:HelperGui;assembly=HelperGui"
+        Name="WndConfigure"
+        WindowStyle="ToolWindow"
+        ShowInTaskbar="True"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        FocusManager.FocusedElement="{Binding ElementName=TxtRootFolder}"
+        Title="Configure GEM" Height="419.926" Width="650.876" Icon="Icons/Gem.png">
+  <Grid DataContext="{Binding ViewModel}">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="41"/>
+    </Grid.RowDefinitions>
+    <TabControl Grid.Row="0">
+      <TabItem Header="General">
+        <Grid>
+          <helperGui:BrowseTextBox x:Name="TxtRootFolder" Height="22" VerticalAlignment="Top"
+                                   TabIndex="0" Margin="10,36,97,0"
+                                   Text="{Binding RootFolderForSearch, PresentationTraceSources.TraceLevel=High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   BrowsingType="FoldersBrowser" DefaultText="Enter SCCs Root Folder" IsEmptyPathValid="True"/>
+          <Label Content="Root folder for search:" HorizontalAlignment="Left" Margin="10,10,0,0"
+                 VerticalAlignment="Top"
+                 RenderTransformOrigin="0.398,1.653" />
+          <xctk:DecimalUpDown Margin="10,114,0,0" RenderTransformOrigin="0.5,0.367" HorizontalAlignment="Left"
+                              Width="49"
+                              Height="23" VerticalAlignment="Top"
+                              TabIndex="2"
+                              Maximum="50"
+                              Minimum="1"
+                              Value="{Binding MaxSearchDepth}" />
+          <Label Content="Maximum folder depth for search:" HorizontalAlignment="Left" Margin="10,88,0,0"
+                 VerticalAlignment="Top" RenderTransformOrigin="0.398,1.653" />
+          <CheckBox Content="Start with Windows"
+                    HorizontalAlignment="Left" Margin="10,172,0,0" VerticalAlignment="Top"
+                    IsChecked="{Binding StartWithWindows}" />
+        </Grid>
+      </TabItem>
+<!--
+      <TabItem Header="Custom Commands">
+        <Grid Margin="10,0,10,0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="59"/>
+            <RowDefinition/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="265*" />
+          </Grid.ColumnDefinitions>
+
+          <StackPanel Grid.Column="0" Grid.RowSpan="2">
+            <Label Content="Choose a command to set:" />
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="246"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+              </Grid.RowDefinitions>
+
+              <ComboBox x:Name="CommandsDropDown" Grid.Column="0" HorizontalAlignment="Stretch"
+                        ItemsSource="{Binding CustomCommands}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+              <helperGui:TwoImageButton Grid.Column="1" HorizontalAlignment="Right" Height="16"
+                      ToolTip="Add Custom Command"
+                      RegularImage="Icons/Add.ico"
+                      HoverImage="Icons/AddFocused.ico"
+                      ClickImage="Icons/AddClicked.ico" />
+              <helperGui:TwoImageButton Grid.Column="2" HorizontalAlignment="Right" Height="16"
+                      ToolTip="Delete Custom Command"
+                      RegularImage="Icons/TextCancel.ico"
+                      HoverImage="Icons/TextCancelFocused.ico"
+                      ClickImage="Icons/TextCancelClicked.ico" />
+              <helperGui:DefaultedTextBox x:Name="NewCommandText" Grid.Column="0" HorizontalAlignment="Stretch"
+                      DefaultText="Enter New Command"
+                      Visibility="Hidden"/>
+            </Grid>
+            <Grid Margin="0,10" Height="249">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="26"/>
+                <RowDefinition Height="26"/>
+                <RowDefinition Height="26"/>
+                <RowDefinition Height="26"/>
+                <RowDefinition Height="26"/>
+                <RowDefinition Height="26"/>
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"/>
+                <ColumnDefinition/>
+              </Grid.ColumnDefinitions>
+
+              <Label Content="Execute:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" />
+              <helperGui:BrowseTextBox Grid.Column="1" Grid.Row="0" Height="20"
+                                       DefaultText="Enter Executable Path" BrowsingType="ExecutablesBrowser" IsEmptyPathValid="False"
+                                       Text="{Binding SelectedValue.ExecutableCommand, ElementName=CommandsDropDown, Mode=TwoWay}"/>
+
+              <Label Content="Parameters:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" />
+              <helperGui:DefaultedTextBox Grid.Column="1" Grid.Row="1" Height="20"
+                                          DefaultText="Optional Parameters"
+                                          Text="{Binding SelectedValue.Parameters, ElementName=CommandsDropDown, Mode=TwoWay}"/>
+
+              <Label Content="Working Folder:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"/>
+              <helperGui:BrowseTextBox Grid.Column="1" Grid.Row="2" Height="20"
+                                       DefaultText="Optional Working Folder" BrowsingType="FoldersBrowser" IsEmptyPathValid="True"
+                                       Text="{Binding SelectedValue.WorkingDirectory, ElementName=CommandsDropDown, Mode=TwoWay}" />
+
+              <CheckBox Content="Execute in Administrative Mode" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding SelectedValue.RunElevated, ElementName=CommandsDropDown}"/>
+
+              <Label Content="Description:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" />
+              <helperGui:DefaultedTextBox Grid.Column="1" Grid.Row="4" Grid.RowSpan="2" Height="46"
+                                          TextWrapping="WrapWithOverflow"
+                                          AcceptsReturn="True"
+                                          DefaultText="Optional Command Description"
+                                          Text="{Binding SelectedValue.Description, ElementName=CommandsDropDown, Mode=TwoWay}"/>
+              <Border BorderBrush="Blue" BorderThickness="2"
+                      VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="358">
+                <TextBlock Foreground="Blue" Margin="2,2,2,2">
+                  For the 'Parameters' and 'Working Folder' fields: <LineBreak />
+                  $FolderName - Denotes the base folder of the environment <LineBreak />
+                  $CustomInfo - Denotes the current environment SCC-related info
+                </TextBlock>
+              </Border>
+            </Grid>
+          </StackPanel>
+
+          <Line Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" StrokeThickness="2" Stroke="Brown" Margin="5,0" Grid.RowSpan="2" />
+
+          <StackPanel Grid.Column="2" Grid.Row="1">
+            <Label Content="Mark relevant environments:" HorizontalAlignment="Left" />
+              <ListBox Height="150" ItemsSource="{Binding EnvironmentsView}">
+                <ListBox.ItemContainerStyle>
+                  <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="{Binding Path=EnvViewModel.NonHoverColor}" />
+                  </Style>
+                </ListBox.ItemContainerStyle>
+                  
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                      <CheckBox IsChecked="{Binding IsSelected}"/>
+                      <TextBlock Text="{Binding EnvViewModel.Info}" Margin="5,0,0,0"/>
+                    </StackPanel>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+          </StackPanel>
+        </Grid>
+      </TabItem>
+-->
+    </TabControl>
+    <Button Content="Cancel" Grid.Row="1" Margin="0,9,10,10" IsCancel="True" TabIndex="101" HorizontalAlignment="Right"
+                  Width="75" />
+    <Button Content="OK" Grid.Row="1" Margin="0,9,90,10" IsDefault="True" TabIndex="100"
+                  IsEnabled="{Binding HasValidPath, ElementName=TxtRootFolder}"
+                  HorizontalAlignment="Right"
+                  Width="75"
+                  Click="BtnOk_Click"
+                  Name="BtnOk" />
+  </Grid>
+</Window>
+
+
+
+
+
+
+

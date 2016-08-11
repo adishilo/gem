@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="GemGui.SccEnvironmentsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:commands="clr-namespace:GemGui.Commands"
+             xmlns:converters="http://schemas.kent.boogaart.com/converters"
+             xmlns:gemGui="clr-namespace:GemGui"
+             mc:Ignorable="d"
+             Height="{Binding Height, ElementName=StkContainer}"
+             Width="{Binding Width, ElementName=StkContainer}">
+  <UserControl.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+  </UserControl.Resources>
+  
+  <StackPanel Name="StkContainer"
+              Margin="4">
+    <TextBlock Text="GEM Identified SCC Environments"
+               FontWeight="Bold"/>
+    <TextBlock Text="{Binding EnvironmentsStatus}"
+               FontSize="11"/>
+    <ListBox HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+             Visibility="{Binding HasEnvironments, Converter={StaticResource BooleanToVisibilityConverter}}"
+             HorizontalContentAlignment="Stretch"
+             ItemsSource="{Binding EnvironmentsView}">
+      <ListBox.ItemContainerStyle>
+        <Style TargetType="ListBoxItem">
+          <Setter Property="Background" Value="{Binding Path=NonHoverColor}" />
+          <Setter Property="ContextMenu" Value="{Binding GeneratedContextMenu}" />
+          <Setter Property="Focusable" Value="False" />
+          <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter Property="Background" Value="Gold" />
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </ListBox.ItemContainerStyle>
+
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <gemGui:EnvironmentControl />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+</UserControl>

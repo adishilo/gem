@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="GemGui.EnvironmentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:commands="clr-namespace:GemGui.Commands"
+             xmlns:helperGui="clr-namespace:HelperGui;assembly=HelperGui"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Height="{Binding Height, ElementName=StkContainer}"
+             Width="{Binding Width, ElementName=StkContainer}">
+  <UserControl.Resources>
+    <commands:EditCommandParametersConverter x:Key="EditCommandParametersConverter" />
+  </UserControl.Resources>
+
+  <StackPanel Name="StkContainer" Background="Transparent">
+    <StackPanel.InputBindings>
+      <MouseBinding Command="{Binding Container.EditCustomItemCommand}" MouseAction="LeftClick">
+        <MouseBinding.CommandParameter>
+          <MultiBinding Converter="{StaticResource EditCommandParametersConverter}">
+            <Binding Source="{x:Static commands:EditCommandModes.InvokeEditMode}" />
+            <Binding />
+            <Binding ElementName="TxtCustomInfo" />
+          </MultiBinding>
+        </MouseBinding.CommandParameter>
+      </MouseBinding>
+    </StackPanel.InputBindings>
+    <StackPanel Orientation="Horizontal">
+      <CheckBox ToolTip="Check to include on quick-view" IsChecked="{Binding IsOnQuickView}" />
+      <TextBlock Margin="5,0,0,0" Text="{Binding Info}" />
+    </StackPanel>
+    <Grid Visibility="{Binding IsCustomInfoVisible}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="16" />
+        <ColumnDefinition Width="16" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="20" />
+      </Grid.RowDefinitions>
+      
+      <helperGui:DefaultedTextBox Name="TxtCustomInfo" DefaultText="Enter your comment"
+               Text="{Binding FolderCustomInformation, UpdateSourceTrigger=PropertyChanged}"
+               Visibility="{Binding IsCustomInfoVisible}">
+        <TextBox.InputBindings>
+          <KeyBinding Command="{Binding Container.EditCustomItemCommand}" Key="Escape">
+            <KeyBinding.CommandParameter>
+              <MultiBinding Converter="{StaticResource EditCommandParametersConverter}">
+                <Binding Source="{x:Static commands:EditCommandModes.CancelEditMode}" />
+                <Binding />
+                <Binding ElementName="TxtCustomInfo" />
+              </MultiBinding>
+            </KeyBinding.CommandParameter>
+          </KeyBinding>
+
+          <KeyBinding Command="{Binding Container.EditCustomItemCommand}" Key="Enter">
+            <KeyBinding.CommandParameter>
+              <MultiBinding Converter="{StaticResource EditCommandParametersConverter}">
+                <Binding Source="{x:Static commands:EditCommandModes.ApplyEdit}" />
+                <Binding />
+                <Binding ElementName="TxtCustomInfo" />
+              </MultiBinding>
+            </KeyBinding.CommandParameter>
+          </KeyBinding>
+        </TextBox.InputBindings>
+      </helperGui:DefaultedTextBox>
+      <helperGui:TwoImageButton
+        Grid.Column="1"
+        VerticalAlignment="Center" Height="{Binding Height, ElementName=TxtCustomInfo}"
+        BorderThickness="0"
+        Background="Transparent"
+        ToolTip="Apply Edit (Enter)"
+        RegularImage="Icons/TextOk.ico"
+        HoverImage="Icons/TextOkFocused.ico"
+        ClickImage="Icons/TextOkClicked.ico"
+        Command="{Binding Container.EditCustomItemCommand}">
+        <Button.CommandParameter>
+          <MultiBinding Converter="{StaticResource EditCommandParametersConverter}">
+            <Binding Source="{x:Static commands:EditCommandModes.ApplyEdit}" />
+            <Binding />
+            <Binding ElementName="TxtCustomInfo" />
+          </MultiBinding>
+        </Button.CommandParameter>
+      </helperGui:TwoImageButton>
+      <helperGui:TwoImageButton
+        Grid.Column="2"
+        VerticalAlignment="Center" Height="{Binding Height, ElementName=TxtCustomInfo}"
+        BorderThickness="0"
+        Background="Transparent"
+        ToolTip="Cancel Edit (Esc)"
+        RegularImage="Icons/TextCancel.ico"
+        HoverImage="Icons/TextCancelFocused.ico"
+        ClickImage="Icons/TextCancelClicked.ico"
+        Command="{Binding Container.EditCustomItemCommand}">
+        <Button.CommandParameter>
+          <MultiBinding Converter="{StaticResource EditCommandParametersConverter}">
+            <Binding Source="{x:Static commands:EditCommandModes.CancelEditMode}" />
+            <Binding />
+            <Binding ElementName="TxtCustomInfo" />
+          </MultiBinding>
+        </Button.CommandParameter>
+      </helperGui:TwoImageButton>
+    </Grid>
+  </StackPanel>
+</UserControl>
