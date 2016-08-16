@@ -43,7 +43,9 @@ namespace GemGui
                 }
                 else
                 {
-                    MessageBox.Show("GEM Application is already open.", "GEM", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    // Not using 'Xceed.Wpf.Toolkit.MessageBox' because its having a problem calculating the owner window
+                    // Since it is not yet displayed/instantiated. This is probably a bug of Xceed.Wpf.ToolKit version 2.9.0.0
+                    System.Windows.MessageBox.Show("GEM Application is already open.", "GEM", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 
                     s_logger.Info("GEM application is already open - terminating.");
                 }
