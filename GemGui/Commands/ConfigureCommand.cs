@@ -68,7 +68,6 @@ namespace GemGui.Commands
                     else
                     {
                         userDecisionForNewRoot = MessageBox.Show(
-                            m_configureDialog,
                             "The environments' root folder has changed. If you choose to continue, environments' description will be lost. Continue?",
                             "Root Folder Changed",
                             MessageBoxButton.YesNo,
