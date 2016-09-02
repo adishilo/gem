@@ -55,7 +55,7 @@ The first time build will also acquire the relevant NuGet packages.
 The rotating log files can be found in the *logs/* folder of the application execution folder.
 The logs can be very handy when analyzing issues, so be sure to add them if you submit any.
 
-## GEM Configuration file.
+## GEM Configuration file
 ### Configuration file purposes:
 The GEM configuration is an XML file, containing:
 1. The persisted list of identified Git workspaces and their attached comments.
