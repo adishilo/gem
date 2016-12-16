@@ -150,6 +150,7 @@
     <Compile Include="Commands\IDialogRelatedCommand.cs" />
     <Compile Include="Commands\ParameterizedProcessExecutorCommand.cs" />
     <Compile Include="Commands\ProcessExecutionDefinition.cs" />
+    <Compile Include="Commands\SccInformationRefreshCommand.cs" />
     <Compile Include="Commands\ShowConfigurationCommand.cs" />
     <Compile Include="Commands\ShowLogCommand.cs" />
     <Compile Include="EnvironmentControl.xaml.cs">

@@ -73,7 +73,7 @@ namespace Gem
         }
 
         /// <summary>
-        /// Gets whether the environments' information is now being populated.
+        /// Gets whether the environments' information is now being populated (for refreshing folder structure).
         /// </summary>
         public bool IsPopulating { get; private set; }
 

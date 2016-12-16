@@ -19,8 +19,6 @@ namespace GemGui.Commands
         /// </summary>
         public ExitCommand(Window closeWindow)
         {
-            s_logger.Info("Executing exit.");
-
             m_closeWindow = closeWindow;
         }
 
@@ -33,6 +31,8 @@ namespace GemGui.Commands
 
         public void Execute(object parameter)
         {
+            s_logger.Info("Executing exit.");
+
             var window = m_closeWindow as MainWindow;
 
             if (window != null)

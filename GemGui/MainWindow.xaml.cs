@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using Gem.Configuration;
 using GemGui.Commands;
 using GemGui.ViewModel;
@@ -22,6 +23,7 @@ namespace GemGui
             LogViewingCommand = new ShowLogCommand();
             ConfigViewCommand = new ShowConfigurationCommand();
             AboutWindowCommand = new AboutCommand();
+            InfoRefreshCommand = new SccInformationRefreshCommand();
 
             InitializeComponent();
 
@@ -69,6 +71,11 @@ namespace GemGui
         /// </summary>
         public AboutCommand AboutWindowCommand { get; }
 
+        /// <summary>
+        /// Gets the 'SCC information refresh' command. CURRENTLY NOT IN USE
+        /// </summary>
+        public SccInformationRefreshCommand InfoRefreshCommand { get; }
+
         #endregion
 
         /// <summary>
@@ -98,6 +105,16 @@ namespace GemGui
         private void WndMain_Activated(object sender, System.EventArgs e)
         {
             Hide();
+        }
+
+        private void TbiNotificationIcon_OnTrayToolTipOpen(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RefreshSccInformation();
+        }
+
+        private void TbiNotificationIcon_OnTrayPopupOpen(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RefreshSccInformation();
         }
     }
 }
