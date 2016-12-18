@@ -180,15 +180,24 @@ namespace GemGui.ViewModel
         /// from starting it twice (in case of SW triggering).
         /// </summary>
         /// <returns></returns>
-        public async Task RefreshSccInformation()
+        public async Task RefreshSccInformationAsync()
         {
             if (!m_isRefreshing)
             {
                 m_isRefreshing = true;
 
                 s_logger.Info("Starting SCC Information refresh");
-                await RefreshSccInformationEx();
+                await Task.Factory.StartNew(() => RefreshSccInformation());
             }
+        }
+
+        public void RefreshSccInformation()
+        {
+            OnPropertyChanged(nameof(SccSummary));
+            SccEnvironmentsModel.RefreshEnvironmentsInformationPresented();
+
+            m_isRefreshing = false;
+            s_logger.Info("Done refreshing SCC information");
         }
 
         /// <summary>
@@ -212,19 +221,6 @@ namespace GemGui.ViewModel
 
                 m_sccManager.SaveConfiguration();
             }
-        }
-
-        private async Task RefreshSccInformationEx()
-        {
-            await Task.Factory.StartNew(
-                () =>
-                {
-                    OnPropertyChanged(nameof(SccSummary));
-                    SccEnvironmentsModel.RefreshEnvironmentsInformationPresented();
-
-                    m_isRefreshing = false;
-                    s_logger.Info("Done refreshing SCC information");
-                });
         }
 
         /// <summary>

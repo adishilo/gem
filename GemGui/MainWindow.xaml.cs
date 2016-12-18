@@ -109,12 +109,12 @@ namespace GemGui
 
         private void TbiNotificationIcon_OnTrayToolTipOpen(object sender, RoutedEventArgs e)
         {
-            ViewModel.RefreshSccInformation();
+            ViewModel.RefreshSccInformationAsync();
         }
 
         private void TbiNotificationIcon_OnTrayPopupOpen(object sender, RoutedEventArgs e)
         {
-            ViewModel.RefreshSccInformation();
+            ViewModel.RefreshSccInformationAsync();
         }
     }
 }
