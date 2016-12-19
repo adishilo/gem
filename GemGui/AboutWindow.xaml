@@ -21,7 +21,7 @@
       <Image Source="Icons/Gem.png" Height="44" Width="46" Canvas.Left="17" Canvas.Top="14" />
       <TextBlock FontSize="32" Canvas.Left="68" Canvas.Top="15">Gem</TextBlock>
       <TextBlock Canvas.Left="17" Canvas.Top="83" FontSize="10.667">Author: Adi Shilo</TextBlock>
-      <TextBlock Canvas.Left="17" Canvas.Top="102" FontSize="10.667">Version: 1.2.0</TextBlock>
+      <TextBlock Canvas.Left="17" Canvas.Top="102" FontSize="10.667">Version: 1.2.1</TextBlock>
       <TextBlock Canvas.Left="17" Canvas.Top="121" FontSize="10.667">
         <Hyperlink NavigateUri="https://github.com/adishilo/gem" RequestNavigate="Hyperlink_RequestNavigate">Project Site</Hyperlink>
       </TextBlock>
