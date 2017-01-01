@@ -25,13 +25,11 @@ namespace GemGui.ViewModel
         private static readonly ImageSource s_trayIcon = new BitmapImage(new Uri("pack://application:,,,/Icons/GemAppIcon.ico"));
         private static readonly ImageSource s_trayEditingIcon = new BitmapImage(new Uri("pack://application:,,,/Icons/GemAppEditModeIcon.ico"));
 
-        private readonly TimeSpan m_refreshSpan = TimeSpan.FromSeconds(5);
-
-        private readonly Timer m_refreshInfoTimer;
         private readonly GeDefinitionsManager m_sccManager = new GeDefinitionsManager();
 
         private string m_rootFolder = null;
         private int m_maxSearchDepth = 3;
+        private bool m_isRefreshing = false;
 
         /// <summary>
         /// Create a new instance of <see cref="GemViewModel"/> initializing it without a root folder.
@@ -59,16 +57,6 @@ namespace GemGui.ViewModel
             SccEnvironmentsModel = new SccEnvironmentsViewModel(m_sccManager);
 
             InitTrayIconHandling();
-
-            m_refreshInfoTimer = new Timer(
-                state =>
-                {
-                    OnPropertyChanged(nameof(SccSummary));
-                    SccEnvironmentsModel.RefreshEnvironmentsInformationPresented();
-                },
-                null,
-                TimeSpan.Zero,
-                m_refreshSpan);
         }
 
         private void InitTrayIconHandling()
@@ -185,6 +173,32 @@ namespace GemGui.ViewModel
         public ImageSource ApplicationTrayIcon { get; private set; }
 
         #endregion
+
+        /// <summary>
+        /// Start the task to refresh SCC information, only if it is not already working.
+        /// Note: It is assumed that the trigger is human interface, so no special locking is provided to prevent
+        /// from starting it twice (in case of SW triggering).
+        /// </summary>
+        /// <returns></returns>
+        public async Task RefreshSccInformationAsync()
+        {
+            if (!m_isRefreshing)
+            {
+                m_isRefreshing = true;
+
+                s_logger.Info("Starting SCC Information refresh");
+                await Task.Factory.StartNew(() => RefreshSccInformation());
+            }
+        }
+
+        public void RefreshSccInformation()
+        {
+            OnPropertyChanged(nameof(SccSummary));
+            SccEnvironmentsModel.RefreshEnvironmentsInformationPresented();
+
+            m_isRefreshing = false;
+            s_logger.Info("Done refreshing SCC information");
+        }
 
         /// <summary>
         /// Repopulate the managed SCC environments according to the current structure.

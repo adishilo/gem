@@ -17,7 +17,9 @@
       Name="TbiNotificationIcon"
       IconSource="{Binding ApplicationTrayIcon}"
       ToolTipText="{Binding SccSummary}"
-      DoubleClickCommand="{Binding OwnerWindow.ConfigureAppCommand}">
+      DoubleClickCommand="{Binding OwnerWindow.ConfigureAppCommand}"
+      TrayToolTipOpen="TbiNotificationIcon_OnTrayToolTipOpen"
+      TrayPopupOpen="TbiNotificationIcon_OnTrayPopupOpen">
       
       <tb:TaskbarIcon.TrayToolTip>
         <Border

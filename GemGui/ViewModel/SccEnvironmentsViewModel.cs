@@ -200,9 +200,9 @@ namespace GemGui.ViewModel
         {
             if (EnableRefreshEnvironment)
             {
-                OnPropertyChanged("EnvironmentsView");
-                OnPropertyChanged("HasEnvironments");
-                OnPropertyChanged("EnvironmentsStatus");
+                OnPropertyChanged(nameof(EnvironmentsView));
+                OnPropertyChanged(nameof(HasEnvironments));
+                OnPropertyChanged(nameof(EnvironmentsStatus));
             }
         }
 
